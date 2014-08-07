@@ -11,17 +11,21 @@ import re
 
 def renamer(file_name):
 
-    # convert to lowercase
-    print file_name.lower()
-    
-    # extract the file extension
-    extension = re.findall(r'[\.]{1}[a-zA-Z]+', file_name)
-    ext = extension[-1]
-    print ext
+    renamed = []
 
-    # get rid of nonword chars and whitespace
-    sans_bad_chars = re.sub(r'[\W\s]', '', file_name)
-    print sans_bad_chars
+    # convert to lowercase
+    renamed.insert(0, file_name.lower())
+
+    # find the file extension
+    ext = re.findall(r'[\.]{1}[a-zA-Z]+', renamed[0])
+    extension = ext[-1]
+
+    print extension
+
+    # get rid of nonword chars
+    sans_bad_chars = re.sub(r'[^a-zA-Z 0-9_-]', '', file_name)
+    print sans_bad_chars.lower()
+
 
 # test
 file_name = "this\%\# is a Test-of the_PROCEDURE.yomama.txt"
