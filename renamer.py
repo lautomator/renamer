@@ -10,10 +10,17 @@ import re
 
 
 def renamer(file_args):
+    # convert to lowercase
     print file_args.lower()
-    print file_args.replace(' ', '')
-    bad_chars = re.findall(r'[\W\s]', file_args)
-    print bad_chars
+    
+    # extract the file extension
+    extension = re.match(r'[\.a-zA-Z]{1}', file_args)
+    print dir(extension)
+    ext = extension
+
+    # get rid of nonword chars and whitespace
+    sans_bad_chars = re.sub(r'[\W\s]', '', file_args)
+    print sans_bad_chars
 
 # test
 file_name = "this\%\# is a Test-of the_PROCEDURE.txt"
