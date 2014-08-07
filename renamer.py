@@ -9,19 +9,20 @@ import re
 # assign the new name to the file
 
 
-def renamer(file_args):
+def renamer(file_name):
+
     # convert to lowercase
-    print file_args.lower()
+    print file_name.lower()
     
     # extract the file extension
-    extension = re.match(r'[\.a-zA-Z]{1}', file_args)
-    print dir(extension)
-    ext = extension
+    extension = re.findall(r'[\.]{1}[a-zA-Z]+', file_name)
+    ext = extension[-1]
+    print ext
 
     # get rid of nonword chars and whitespace
-    sans_bad_chars = re.sub(r'[\W\s]', '', file_args)
+    sans_bad_chars = re.sub(r'[\W\s]', '', file_name)
     print sans_bad_chars
 
 # test
-file_name = "this\%\# is a Test-of the_PROCEDURE.txt"
+file_name = "this\%\# is a Test-of the_PROCEDURE.yomama.txt"
 renamer(file_name)
