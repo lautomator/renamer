@@ -4,11 +4,6 @@ import os
 import sys
 import re
 
-# get the args
-# pass the args through the naming procedure
-# assign the new name to the file
-
-
 def renamer(filename):
 
     renamed = []
