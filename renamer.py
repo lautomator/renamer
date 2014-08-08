@@ -44,24 +44,23 @@ def renamer(filename):
     return str(renamed[0])
 
 
-def main(targets):
+def validate_targets(targets):
 
-    for fin in targets:
-        print renamer(fin)
+    if os.path.isfile(targets[0]):
+        valid_targets = targets
+        return valid_targets
+    else:
+        return 'not a file'
 
 
+def main(valid_targets):
+    
+    print valid_targets[0]
+
+
+# ignore the name of the script
 targets = sys.argv[1:]
+valid_targets = validate_targets(targets)
 
 if __name__ == '__main__':
     main(targets)
-
-'''
-Traceback (most recent call last):
-  File "../renamer.py", line 61, in <module>
-    main(targets)
-  File "../renamer.py", line 55, in main
-    print renamer(fin)
-  File "../renamer.py", line 21, in renamer
-    extension = ext[-1]
-IndexError: list index out of range
-'''
