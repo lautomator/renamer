@@ -3,6 +3,7 @@
 import os
 import sys
 import re
+import fileinput
 
 def renamer(filename):
 
@@ -44,7 +45,7 @@ def renamer(filename):
     return str(renamed[0])
 
 
-def validate_targets(targets):
+def validate_target(target):
 
     if os.path.isfile(targets[0]):
         valid_targets = targets
@@ -53,14 +54,17 @@ def validate_targets(targets):
         return 'not a file'
 
 
-def main(valid_targets):
+def main(target):
     
-    print valid_targets[0]
+    pass
 
 
 # ignore the name of the script
-targets = sys.argv[1:]
-valid_targets = validate_targets(targets)
+path_to_file = sys.argv[1]
+split_path = os.path.split(path_to_file)
+target = split_path[1]
 
-if __name__ == '__main__':
-    main(targets)
+#if __name__ == '__main__':
+#    main(target)
+
+print renamer(target)
