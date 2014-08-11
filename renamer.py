@@ -16,16 +16,15 @@ def remove_paths(args):
     # Remove the file paths from the args.
     for index in args:
         split_path = os.path.split(index)
-        target_files.append(split_path[1])
+        target_files.append(split_path[-1])
 
     return target_files
 
 
-def validate_target(target):
+def validate_targets(args):
     ''' Check to ensure the target is a file. '''
-    for filename in target:
-        if os.path.isfile(target[filename]):
-            return True
+    for filename in args:
+        print os.path.isfile(filename)
 
 
 def rename_label(target):
@@ -89,8 +88,8 @@ def main():
     args = sys.argv[1:]
 
     # OUT
-    print remove_paths(args)
-
+    # print remove_paths(args)
+    print validate_targets(args)
 
 if __name__ == '__main__':
     main()
