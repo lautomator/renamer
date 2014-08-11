@@ -6,10 +6,21 @@ import re
 # import fileinput
 
 
+def validate_targets(args):
+    '''
+        Check to ensure all targets arguments
+        are files. Returns Boolean.
+    '''
+    index = 0
+    while index < len(args) && os.path.isfile(args[index]):
+        
+
+
 def remove_paths(args):
     '''
-        Gather the file names from the
-        command line arguments.
+        Gather the file name(s) from the
+        command line argument(s) Returns
+        a list with the file name(s).
     '''
     target_files = []
 
@@ -21,19 +32,14 @@ def remove_paths(args):
     return target_files
 
 
-def validate_targets(args):
-    ''' Check to ensure the target is a file. '''
-    for filename in args:
-        print os.path.isfile(filename)
-
-
 def rename_label(target):
     '''
         This takes any string and renames
         output so that the new string is 16
         chars or less, does not contain non-word
-        chars except for '_' and '-', removes
-        spaces, and converts to lowercase.
+        chars except for '_', removes spaces,
+        and converts to lowercase. Returns the
+        renamed label.
     '''
     renamed = []
 
@@ -87,9 +93,12 @@ def main():
     # Ignore the name of the script.
     args = sys.argv[1:]
 
+    # Ensure the targets are all files
+
+
     # OUT
-    # print remove_paths(args)
-    print validate_targets(args)
+    print validate_target(args[0])
+
 
 if __name__ == '__main__':
     main()
