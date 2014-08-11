@@ -3,7 +3,6 @@
 import os
 import sys
 import re
-# import fileinput
 
 
 def validate_targets(args):
@@ -11,12 +10,15 @@ def validate_targets(args):
         Check to ensure all targets arguments
         are files. Returns Boolean.
     '''
-    index = 0
-    while index < len(args) && os.path.isfile(args[index]):
-        
+    valid_targets = []
+    for arg in args:
+        if os.path.isfile(arg):
+            valid_targets.append(arg)
+
+    return valid_targets
 
 
-def remove_paths(args):
+def remove_paths(targets):
     '''
         Gather the file name(s) from the
         command line argument(s) Returns
@@ -24,12 +26,28 @@ def remove_paths(args):
     '''
     target_files = []
 
-    # Remove the file paths from the args.
-    for index in args:
+    # Remove the file paths from the targets.
+    for index in targets:
         split_path = os.path.split(index)
         target_files.append(split_path[-1])
 
     return target_files
+
+
+def preserve_paths(targets):
+    '''
+        Gather the file path(s) from the
+        command line argument(s) Returns
+        a list with the file path(s).
+    '''
+    target_paths = []
+
+    # Remove the file names from the targets.
+    for index in targets:
+        split_path = os.path.split(index)
+        target_paths.append(split_path[0])
+
+    return target_paths
 
 
 def rename_label(target):
@@ -81,9 +99,6 @@ def rename_label(target):
     # Add the label to the work list.
     renamed.insert(0, final_name)
 
-    # Cleanup.
-    del renamed[1:]
-
     return str(renamed[0])
 
 
@@ -92,12 +107,24 @@ def main():
     # Get the command line arguments.
     # Ignore the name of the script.
     args = sys.argv[1:]
-
-    # Ensure the targets are all files
-
+    # Ensure that args are valid files.
+    targets = validate_targets(args)
+    # Get the file names.
+    target_files = remove_paths(targets)
+    # Reserve the file paths
+    target_paths = preserve_paths(targets)
 
     # OUT
-    print validate_target(args[0])
+    # Rename the target file labels
+    renamed = []
+    for target in target_files:
+        renamed.append(rename_label(target))
+
+    # Rename the actual files
+    index = 0
+    for new_name in renamed:
+        os.rename(targets[index], target_paths[index] + '/' + new_name)
+        index += 1
 
 
 if __name__ == '__main__':
