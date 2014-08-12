@@ -5,37 +5,9 @@ import sys
 import re
 
 
-def validate_args(args):
-    '''
-        Check to ensure all there is at least one
-        argument and that the arguments are valid
-        files. Returns the valid targets only.
-    '''
-    errors = [
-        'error: need to enter at least 1 argument.',
-        'error: file does not exist.',
-    ]
-
-    usage = 'usage: python [this-script] <args>'
-
-    valid_targets = []
-
-    if len(args) == 0:
-        return errors[0]
-
-    else:
-        for arg in args:
-            if os.path.isfile(arg):
-                valid_targets.append(arg)
-            else:
-                return errors[1]
-
-        return valid_targets
-
-
 def validate_targets(args):
     '''
-        Check to ensure all targets arguments
+        Check to ensure all target arguments
         are files. Returns the valid targets only.
     '''
     valid_targets = []
@@ -43,6 +15,8 @@ def validate_targets(args):
     for arg in args:
         if os.path.isfile(arg):
             valid_targets.append(arg)
+        else:
+            print 'error: invalid target(s)'
 
         return valid_targets
 
@@ -132,36 +106,38 @@ def rename_label(target):
     return str(renamed[0])
 
 
-def renamer(targets, target_files, target_paths):
+def renamer(index, targets, target_files, target_paths):
     ''' Perform the renaming of the actual files '''
-    # Process the files for renaming.
-    renamed_file = []
-    index = 0
+    renamed_files = []
+
     for target in target_files:
-        renamed_file.append(rename_label(target))
+        renamed_files.append(rename_label(target))
 
     for new_name in renamed_file:
         os.rename(targets[index], target_paths[index] + '/' + new_name)
         index += 1
 
-    return renamed_file
+    # Display the results of the procedure.
+    #i = 0
+    #for fout in renamed_files:
+    #    print 'renamed:', target_files[i], '-->', fout
+    #    i += 1
+
+    return renamed_files
 
 
 def main():
-    try:
-        # Get the command line arguments.
-        # Ignore the name of the script.
-        args = sys.argv[1:]
-        # Ensure that args are valid files.
-        targets = validate_targets(args)
-        # Get the file names.
-        target_files = remove_paths(targets)
-        # Reserve the file paths
-        target_paths = preserve_paths(targets)
-        # Rename the actual files.
-        renamer(targets, target_files, target_paths)
-    except Exception, e:
-        raise e
+    # Get the command line arguments.
+    # Ignore the name of the script.
+    args = sys.argv[1:]
+    # Ensure that args are valid files.
+    targets = validate_targets(args)
+    # Get the file names.
+    target_files = remove_paths(targets)
+    # Reserve the file paths.
+    target_paths = preserve_paths(targets)
+    # Rename the actual files.
+    print renamer(0, targets, target_files, target_paths)
 
 
 if __name__ == '__main__':
