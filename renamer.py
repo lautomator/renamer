@@ -12,13 +12,17 @@ def validate_targets(args):
     '''
     valid_targets = []
 
+    # At least one argument must be given.
+    if args == []:
+        print 'usage: python renamer.py <args>'
+
     for arg in args:
         if os.path.isfile(arg):
             valid_targets.append(arg)
         else:
-            print 'error: invalid target(s)'
+            print 'renamer: error: invalid target'
 
-        return valid_targets
+    return valid_targets
 
 
 def remove_paths(targets):
@@ -107,21 +111,21 @@ def rename_label(target):
 
 
 def renamer(index, targets, target_files, target_paths):
-    ''' Perform the renaming of the actual files '''
+    ''' Rename the actual files '''
     renamed_files = []
 
     for target in target_files:
         renamed_files.append(rename_label(target))
 
-    for new_name in renamed_file:
+    for new_name in renamed_files:
         os.rename(targets[index], target_paths[index] + '/' + new_name)
         index += 1
 
     # Display the results of the procedure.
-    #i = 0
-    #for fout in renamed_files:
-    #    print 'renamed:', target_files[i], '-->', fout
-    #    i += 1
+    i = 0
+    for fout in renamed_files:
+        print 'renamed:', target_files[i], '-->', fout
+        i += 1
 
     return renamed_files
 
@@ -137,7 +141,7 @@ def main():
     # Reserve the file paths.
     target_paths = preserve_paths(targets)
     # Rename the actual files.
-    print renamer(0, targets, target_files, target_paths)
+    renamer(0, targets, target_files, target_paths)
 
 
 if __name__ == '__main__':
