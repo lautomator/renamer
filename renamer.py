@@ -119,13 +119,9 @@ def renamer(index, targets, target_files, target_paths):
 
     for new_name in renamed_files:
         os.rename(targets[index], target_paths[index] + '/' + new_name)
+        # Display the results of the procedure.
+        print 'renamed:', target_files[index], '-->', new_name
         index += 1
-
-    # Display the results of the procedure.
-    i = 0
-    for fout in renamed_files:
-        print 'renamed:', target_files[i], '-->', fout
-        i += 1
 
     return renamed_files
 
