@@ -1,3 +1,5 @@
 test-files/
 copies/
+.DS_*
+*.pyc
 
